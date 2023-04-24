@@ -5,25 +5,31 @@ import { useReducer } from 'react'
 const COLOR_VALUE = 15
 
 const reducer = (state, action) => {
-	switch (action.colorToChange) {
-		case 'red':
-			return state.red + action.amount > 255
+	switch (action.type) {
+		case 'increase_red':
+			return state.red + action.payload > 255
 				? { ...state, red: 255 }
-				: state.red + action.amount < 0
+				: { ...state, red: state.red + action.payload }
+		case 'decrease_red':
+			return state.red + action.payload < 0
 				? { ...state, red: 0 }
-				: { ...state, red: state.red + action.amount }
-		case 'green':
-			return state.green + action.amount > 255
+				: { ...state, red: state.red + action.payload }
+		case 'increase_green':
+			return state.green + action.payload > 255
 				? { ...state, green: 255 }
-				: state.green + action.amount < 0
+				: { ...state, green: state.green + action.payload }
+		case 'decrease_green':
+			return state.green + action.payload < 0
 				? { ...state, green: 0 }
-				: { ...state, green: state.green + action.amount }
-		case 'blue':
-			return state.blue + action.amount > 255
+				: { ...state, green: state.green + action.payload }
+		case 'increase_blue':
+			return state.blue + action.payload > 255
 				? { ...state, blue: 255 }
-				: state.blue + action.amount < 0
+				: { ...state, blue: state.blue + action.payload }
+		case 'decrease_blue':
+			return state.blue + action.payload < 0
 				? { ...state, blue: 0 }
-				: { ...state, blue: state.blue + action.amount }
+				: { ...state, blue: state.blue + action.payload }
 		default:
 			return state
 	}
@@ -37,28 +43,28 @@ const SquareScreen = () => {
 		<View>
 			<ColorModifier
 				onIncrease={() =>
-					dispatch({ colorToChange: 'red', amount: COLOR_VALUE })
+					dispatch({ type: 'increase_red', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ colorToChange: 'red', amount: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_red', payload: -1 * COLOR_VALUE })
 				}
 				color='Red'
 			/>
 			<ColorModifier
 				onIncrease={() =>
-					dispatch({ colorToChange: 'green', amount: COLOR_VALUE })
+					dispatch({ type: 'increase_green', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ colorToChange: 'green', amount: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_green', payload: -1 * COLOR_VALUE })
 				}
 				color='Green'
 			/>
 			<ColorModifier
 				onIncrease={() =>
-					dispatch({ colorToChange: 'blue', amount: COLOR_VALUE })
+					dispatch({ type: 'increase_blue', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ colorToChange: 'blue', amount: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_blue', payload: -1 * COLOR_VALUE })
 				}
 				color='Blue'
 			/>
