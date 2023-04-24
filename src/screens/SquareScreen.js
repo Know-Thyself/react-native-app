@@ -11,25 +11,25 @@ const reducer = (state, action) => {
 				? { ...state, red: 255 }
 				: { ...state, red: state.red + action.payload }
 		case 'decrease_red':
-			return state.red + action.payload < 0
+			return state.red - action.payload < 0
 				? { ...state, red: 0 }
-				: { ...state, red: state.red + action.payload }
+				: { ...state, red: state.red - action.payload }
 		case 'increase_green':
 			return state.green + action.payload > 255
 				? { ...state, green: 255 }
 				: { ...state, green: state.green + action.payload }
 		case 'decrease_green':
-			return state.green + action.payload < 0
+			return state.green - action.payload < 0
 				? { ...state, green: 0 }
-				: { ...state, green: state.green + action.payload }
+				: { ...state, green: state.green - action.payload }
 		case 'increase_blue':
 			return state.blue + action.payload > 255
 				? { ...state, blue: 255 }
 				: { ...state, blue: state.blue + action.payload }
 		case 'decrease_blue':
-			return state.blue + action.payload < 0
+			return state.blue - action.payload < 0
 				? { ...state, blue: 0 }
-				: { ...state, blue: state.blue + action.payload }
+				: { ...state, blue: state.blue - action.payload }
 		default:
 			return state
 	}
@@ -46,7 +46,7 @@ const SquareScreen = () => {
 					dispatch({ type: 'increase_red', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ type: 'decrease_red', payload: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_red', payload: COLOR_VALUE })
 				}
 				color='Red'
 			/>
@@ -55,7 +55,7 @@ const SquareScreen = () => {
 					dispatch({ type: 'increase_green', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ type: 'decrease_green', payload: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_green', payload: COLOR_VALUE })
 				}
 				color='Green'
 			/>
@@ -64,7 +64,7 @@ const SquareScreen = () => {
 					dispatch({ type: 'increase_blue', payload: COLOR_VALUE })
 				}
 				onDecrease={() =>
-					dispatch({ type: 'decrease_blue', payload: -1 * COLOR_VALUE })
+					dispatch({ type: 'decrease_blue', payload: COLOR_VALUE })
 				}
 				color='Blue'
 			/>
