@@ -1,56 +1,65 @@
-import { Text, View, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import ColorModifier from '../components/ColorModifier'
-import { useState } from 'react'
+import { useReducer } from 'react'
 
 const COLOR_VALUE = 15
 
-const SquareScreen = () => {
-	const [red, setRed] = useState(0)
-	const [green, setGreen] = useState(0)
-	const [blue, setBlue] = useState(0)
-
-	const setColor = (color, change) => {
-		switch (color) {
-			case 'red':
-				red + change > 255
-					? setRed(255)
-					: red + change < 0
-					? setRed(0)
-					: setRed(red + change)
-				return
-			case 'green':
-				green + change > 255
-					? setGreen(255)
-					: green + change < 0
-					? setGreen(0)
-					: setGreen(green + change)
-				return
-			case 'blue':
-				blue + change > 255
-					? setBlue(255)
-					: blue + change < 0
-					? setBlue(0)
-					: setBlue(blue + change)
-				return
-			default:
-				return
-		}
+const reducer = (state, action) => {
+	switch (action.colorToChange) {
+		case 'red':
+			return state.red + action.amount > 255
+				? { ...state, red: 255 }
+				: state.red + action.amount < 0
+				? { ...state, red: 0 }
+				: { ...state, red: state.red + action.amount }
+		case 'green':
+			return state.green + action.amount > 255
+				? { ...state, green: 255 }
+				: state.green + action.amount < 0
+				? { ...state, green: 0 }
+				: { ...state, green: state.green + action.amount }
+		case 'blue':
+			return state.blue + action.amount > 255
+				? { ...state, blue: 255 }
+				: state.blue + action.amount < 0
+				? { ...state, blue: 0 }
+				: { ...state, blue: state.blue + action.amount }
+		default:
+			return state
 	}
+}
+
+const SquareScreen = () => {
+	const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 })
+	// destructuring state
+	const { red, green, blue } = state
 	return (
 		<View>
 			<ColorModifier
-				onIncrease={() => setColor('red', COLOR_VALUE)}
-				onDecrease={() => setColor('red', -1 * COLOR_VALUE)}
+				onIncrease={() =>
+					dispatch({ colorToChange: 'red', amount: COLOR_VALUE })
+				}
+				onDecrease={() =>
+					dispatch({ colorToChange: 'red', amount: -1 * COLOR_VALUE })
+				}
 				color='Red'
 			/>
 			<ColorModifier
-				onIncrease={() => setColor('green', COLOR_VALUE)}
-				onDecrease={() => setColor('green', -1 * COLOR_VALUE)}
+				onIncrease={() =>
+					dispatch({ colorToChange: 'green', amount: COLOR_VALUE })
+				}
+				onDecrease={() =>
+					dispatch({ colorToChange: 'green', amount: -1 * COLOR_VALUE })
+				}
 				color='Green'
 			/>
 			<ColorModifier
-				onIncrease={() => setColor('blue', COLOR_VALUE)}
-				onDecrease={() => setColor('blue', -1 * COLOR_VALUE)}
+				onIncrease={() =>
+					dispatch({ colorToChange: 'blue', amount: COLOR_VALUE })
+				}
+				onDecrease={() =>
+					dispatch({ colorToChange: 'blue', amount: -1 * COLOR_VALUE })
+				}
 				color='Blue'
 			/>
 			<View
