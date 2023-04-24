@@ -8,7 +8,7 @@ const ColorsScreen = () => {
 		<View>
 			<Button
 				title='Add new color'
-				onPress={() => setColors([...colors, randomRgb()])}
+				onPress={() => setColors((prev) => prev.concat(randomRgb()))}
 			/>
 
 			<FlatList
